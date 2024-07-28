@@ -1,4 +1,12 @@
 <script setup>
+import { getCategoryAPI } from '@/apis/testapi'
+import { onMounted } from 'vue';
+
+onMounted(async () => {
+  const res = await getCategoryAPI()
+  console.log(res)
+})
+
 
 </script>
 
