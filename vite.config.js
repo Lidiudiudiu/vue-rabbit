@@ -10,8 +10,11 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   css: {
     preprocessorOptions: {
+      //scss文件自动导入
       scss: {
-        additionalData: `@use "@/styles/element/index.scss" as *;`,
+        additionalData:
+          `@use "@/styles/element/index.scss" as *;
+           @use "@/styles/var.scss" as *;`
       },
     },
   },
