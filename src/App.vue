@@ -15,12 +15,8 @@ onMounted(async () => {
   </router-view>
 
   <div class="test">
-    我是李丢丢
+
   </div>
 </template>
 
-<style scoped lang="scss">
-.test {
-  color: $priceColor;
-}
-</style>
+<style scoped lang="scss"></style>
