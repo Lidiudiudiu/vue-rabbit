@@ -11,3 +11,7 @@ export function getNewsApi() {
         url: '/home/new'
     })
 }
+
+export const getHotAPI = () => {
+    return httpInstance('home/hot')
+}
