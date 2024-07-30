@@ -13,5 +13,13 @@ export function getNewsApi() {
 }
 
 export const getHotAPI = () => {
-    return httpInstance('home/hot')
+    return httpInstance({
+        url: '/home/hot'
+    })
+}
+
+export const getProductApi = () => {
+    return httpInstance({
+        url: '/home/goods'
+    })
 }
