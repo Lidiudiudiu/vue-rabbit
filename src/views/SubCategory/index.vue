@@ -1,5 +1,5 @@
 <script setup>
-import { getCategoryFilterAPI } from '@/apis/category'
+import { getCategoryFilterAPI, getSubCategoryAPI } from '@/apis/category'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router';
 const route = useRoute();
@@ -13,6 +13,32 @@ const getFilterData = async () => {
 onMounted(() => {
     getFilterData()
 })
+
+
+// 获取基础列表数据渲染
+const goodList = ref([])
+const reqData = ref({
+    //参数含义：categoryId：分类id，page：页码，pageSize：每页条数，sortField：排序字段
+    categoryId: route.params.id,
+    page: 1,
+    pageSize: 20,
+    sortField: 'publishTime'
+})
+
+const getGoodList = async () => {
+    const res = await getSubCategoryAPI(reqData.value)
+    goodList.value = res.result.items
+}
+
+//tab切换回调
+const tabChange = () => {
+    // 切换tab时重置page
+    //为什么充值page，因为每次切换tab都是重新请求数据，所以page也要重置
+    reqData.value.page = 1
+    getGoodList()
+}
+
+onMounted(() => getGoodList())
 </script>
 
 <template>
@@ -27,7 +53,7 @@ onMounted(() => {
             </el-breadcrumb>
         </div>
         <div class="sub-container">
-            <el-tabs>
+            <el-tabs v-model="reqData.sortField" @tab-change="tabChange">
                 <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
                 <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
                 <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
