@@ -2,6 +2,7 @@
 import { getCategoryFilterAPI, getSubCategoryAPI } from '@/apis/category'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router';
+import GoodsItem from '../Home/components/GoodsItem.vue';
 const route = useRoute();
 // 获取面包屑导航数据
 const filterData = ref({})
@@ -29,6 +30,24 @@ const getGoodList = async () => {
     const res = await getSubCategoryAPI(reqData.value)
     goodList.value = res.result.items
 }
+
+const disabled = ref(false)
+//无限加载实现
+const load = async () => {
+    reqData.value.page++
+    const res = await getSubCategoryAPI(reqData.value)
+    //将新数据拼接到原数据上
+    //concat方法是将新数据拼接到原数据上
+    //用展开运算符也可以实现拼接数据
+    // goodList.value = [...goodList.value, ...res.result.items]
+    goodList.value = goodList.value.concat(res.result.items)
+    //判断是否还有数据，没有数据则取消无限加载
+    if (res.result.items.length === 0) {
+        disabled.value = true
+    }
+}
+
+
 
 //tab切换回调
 const tabChange = () => {
@@ -58,8 +77,10 @@ onMounted(() => getGoodList())
                 <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
                 <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
             </el-tabs>
-            <div class="body">
+            <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
                 <!-- 商品列表-->
+                <!-- 通过for循环渲染商品列表 -->
+                <GoodsItem v-for="good in goodList" :good="good" :key="good.id" />
             </div>
         </div>
     </div>
