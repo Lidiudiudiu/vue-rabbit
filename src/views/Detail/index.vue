@@ -2,6 +2,7 @@
 //使用详情页的接口获取商品详情
 import DetailHot from './components/DetailHot.vue';
 import ImageView from '@/components/ImageView/index.vue';
+import XtxSku from '@/components/XtxSku/index.vue';
 import { getDetail } from '@/apis/detail';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -15,6 +16,10 @@ const getGoods = async () => {
 onMounted(() => {
     getGoods();
 });
+
+const skuChange = (sku) => {
+    console.log(sku);
+};
 
 </script>
 
@@ -89,7 +94,7 @@ onMounted(() => {
                                 </dl>
                             </div>
                             <!-- sku组件 -->
-
+                            <XtxSku :goods="goods" @change="skuChange"></XtxSku>
                             <!-- 数据组件 -->
 
                             <!-- 按钮组件 -->
