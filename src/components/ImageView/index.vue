@@ -7,7 +7,9 @@ const { elementX, elementY, isOutside } = useMouseInElement(target)
 
 const left = ref(0);
 const top = ref(0);
-
+// 控制大图的显示
+const positionX = ref(0)
+const positionY = ref(0)
 watch([elementX, elementY], () => {
     // 有效范围内控制滑块距离
     // 横向
@@ -27,11 +29,19 @@ watch([elementX, elementY], () => {
 
     if (elementY.value > 300) { top.value = 200 }
     if (elementY.value < 100) { top.value = 0 }
+
+
+    positionX.value = -left.value * 2
+    positionY.value = -top.value * 2
 })
 const currentIndex = ref(0)
 const mouseEnterFn = (index) => {
     currentIndex.value = index
 }
+
+
+
+
 // 图片列表
 const imageList = [
     "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
@@ -49,7 +59,7 @@ const imageList = [
         <div class="middle" ref="target">
             <img :src="imageList[currentIndex]" alt="" />
             <!-- 蒙层小滑块 -->
-            <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+            <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }" v-show="!isOutside"></div>
         </div>
         <!-- 小图列表 -->
         <ul class="small">
@@ -61,11 +71,11 @@ const imageList = [
         <!-- 放大镜大图 -->
         <div class="large" :style="[
             {
-                backgroundImage: `url(${imageList[0]})`,
-                backgroundPositionX: `0px`,
-                backgroundPositionY: `0px`,
+                backgroundImage: `url(${imageList[currentIndex]})`,
+                backgroundPositionX: `${positionX}px`,
+                backgroundPositionY: `${positionY}px`,
             },
-        ]" v-show="false"></div>
+        ]"></div>
     </div>
 </template>
 
