@@ -1,8 +1,6 @@
 <script setup>
 //使用详情页的接口获取商品详情
 import DetailHot from './components/DetailHot.vue';
-import ImageView from '@/components/ImageView/index.vue';
-import XtxSku from '@/components/XtxSku/index.vue';
 import { getDetail } from '@/apis/detail';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -18,7 +16,7 @@ onMounted(() => {
 });
 
 const skuChange = (sku) => {
-    console.log(sku);
+    console.log('sku', sku);
 };
 
 </script>
@@ -45,7 +43,7 @@ const skuChange = (sku) => {
                     <div class="goods-info">
                         <div class="media">
                             <!-- 图片预览区 -->
-                            <ImageView :imageList="goods.mainPictures" />
+                            <XtxImageView :imageList="goods.mainPictures" />
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
                                 <li>
